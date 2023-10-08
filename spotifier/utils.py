@@ -18,15 +18,6 @@ def get_access_token(client_id, client_secret):
     response = requests.post("https://accounts.spotify.com/api/token", headers=headers, data=data)
     return response.json().get('access_token')
 
-def get_top_tracks_of_artist(access_token, artist_id, market="US"):
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
-    
-    response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market={market}", headers=headers)
-    return response.json().get('tracks')
-
-
 def get_and_save_artist(access_token, artist_id):
     headers = {
         "Authorization": f"Bearer {access_token}"

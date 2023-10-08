@@ -1,4 +1,4 @@
-sth = {"artists": [
+artists =  [
     {
         "name":"the weekend",
         "id": "1Xyo4u8uXC1ZmMpatF05PJ",
@@ -252,4 +252,3 @@ sth = {"artists": [
         "rank":50
     },
 ]
-}

@@ -251,5 +251,255 @@
         "id":"0hCNtLu0JehylgoiP8L4Gh",
         "rank":50
     },
+    {
+        "name":"kendrick lamar",
+        "id":"2YZyLoL8N0Wb9xBt1NhZWg",
+        "rank":51
+    },
+    {
+        "name":"rauw alejandro",
+        "id":"1mcTU81TzQhprhouKaTkpq",
+        "rank":52
+    },
+    {
+        "name":"marshmello",
+        "id":"64KEffDW9EtZ1y2vBYgq8T",
+        "rank":53
+    },
+    {
+        "name":"halsey",
+        "id":"26VFTg2z8YR0cCuwLzESi2",
+        "rank":54
+    },
+    {
+        "name":"arctic monkeys",
+        "id":"7Ln80lUS6He07XvHI8qqHH",
+        "rank":55
+    },
+    {
+        "name":"rosalia",
+        "id":"7ltDVBr6mKbRvohxheJ9h1",
+        "rank":56
+    },
+    {
+        "name":"black eyed peas",
+        "id":"1yxSLGMDHlW21z4YXirZDS",
+        "rank":57
+    },
+    {
+        "name":"camila cabello",
+        "id":"4nDoRrQiYLoBzwC5BhVJzF",
+        "rank":58
+    },
+    {
+        "name":"karol g",
+        "id":"790FomKkXshlbRYZFtlgla",
+        "rank":59
+    },
+    {
+        "name":"lana del rey",
+        "id":"00FQb4jTyendYWaN8pK0wa",
+        "rank":60
+    },
+    {
+        "name":"rema",
+        "id":"46pWGuE3dSwY3bMMXGBvVS",
+        "rank":61
+    },
+    {
+        "name":"meghan trainor",
+        "id":"6JL8zeS1NmiOftqZTRgdTz",
+        "rank":62
+    },
+    {
+        "name":"lil nas x",
+        "id":"7jVv8c5Fj3E9VhNjxT4snq",
+        "rank":63
+    },
+    {
+        "name":"bts",
+        "id":"3Nrfpe0tUJi4K4DXYWgMUX",
+        "rank":64
+    },
+    {
+        "name":"raye",
+        "id":"5KKpBU5eC2tJDzf0wmlRp2",
+        "rank":65
+    },
+    {
+        "name":"charlie puth",
+        "id":"6VuMaDnrHyPL1p4EHjYLi7",
+        "rank":66
+    },
+    {
+        "name":"one direction",
+        "id":"4AK6F7OLvEQ5QYCBNiQWHq",
+        "rank":67
+    },
+    {
+        "name":"xxxtentacion",
+        "id":"15UsOTVnJzReFVN1VCnxy4",
+        "rank":68
+    },
+    {
+        "name":"robin schulz",
+        "id":"3t5xRXzsuZmMDkQzgOX35S",
+        "rank":69
+    },
+    {
+        "name":"feid",
+        "id":"2LRoIwlKmHjgvigdNGBHNo",
+        "rank":70
+    },
+    {
+        "name":"p!nk",
+        "id":"1KCSPY1glIKqW2TotWuXOR",
+        "rank":71
+    },
+    {
+        "name":"olivia rodrigo",
+        "id":"1McMsnEElThX1knmY4oliG",
+        "rank":72
+    },
+    {
+        "name":"oliver tree",
+        "id":"6TLwD7HPWuiOzvXEa3oCNe",
+        "rank":73
+    },
+    {
+        "name":"manuel turizo",
+        "id":"0tmwSHipWxN12fsoLcFU3B",
+        "rank":74
+    },
+    {
+        "name":"jay-z",
+        "id":"3nFkdlSjzX9mRTtwJOzDYB",
+        "rank":75
+    },
+    {
+        "name":"michael jackson",
+        "id":"3fMbdgg4jU18AjLCKBhRSm",
+        "rank":76
+    },
+    {
+        "name":"linkin park",
+        "id":"6XyY86QOPPrYVGvF9ch6wz",
+        "rank":77
+    },
+    {
+        "name":"nicki minaj",
+        "id":"0hCNtLu0JehylgoiP8L4Gh",
+        "rank":78
+    },
+    {
+        "name":"quevedo",
+        "id":"52iwsT98xCoGgiGntTiR7K",
+        "rank":79
+    },
+    {
+        "name":"lil uzi vert",
+        "id":"4O15NlyKLIASxsJ0PrXPfz",
+        "rank":80
+    },
+    {
+        "name":"maluma",
+        "id":"1r4hJ1h58CWwUQe3MxPuau",
+        "rank":81
+    },
+    {
+        "name":"the chainsmokers",
+        "id":"69GGBxA162lTqCwzJG5jLp",
+        "rank":82
+    },
+    {
+        "name":"avicii",
+        "id":"1vCWHaC5f2uS3yhpwWbIA6",
+        "rank":83
+    },
+    {
+        "name":"stephen sanchez",
+        "id":"5XKFrudbV4IiuE5WuTPRmT",
+        "rank":84
+    },
+    {
+        "name":"james arthur",
+        "id":"4IWBUUAFIplrNtaOHcJPRM",
+        "rank":85
+    },
+    {
+        "name":"miguel",
+        "id":"360IAlyVv4PCEVjgyMZrxK",
+        "rank":86
+    },
+    {
+        "name":"ellie goulding",
+        "id":"0X2BH1fck6amBIoJhDVmmJ",
+        "rank":87
+    },
+    {
+        "name":"the neighbourhood",
+        "id":"77SW9BnxLY8rJ0RciFqkHh",
+        "rank":88
+    },
+    {
+        "name":"tate mcrae",
+        "id":"45dkTj5sMRSjrmBSBeiHym",
+        "rank":89
+    },
+    {
+        "name":"jason derulo",
+        "id":"07YZf4WDAMNwqr4jfgOZ8y",
+        "rank":90
+    },
+    {
+        "name":"pitbull",
+        "id":"0TnOYISbd1XYRBk9myaseg",
+        "rank":91
+    },
+    {
+        "name":"britney spears",
+        "id":"26dSoYclwsYLMAKD3tpOr4",
+        "rank":92
+    },
+    {
+        "name":"ava max",
+        "id":"4npEfmQ6YuiwW1GpUmaq3F",
+        "rank":93
+    },
+    {
+        "name":"070 shake",
+        "id":"12Zk1DFhCbHY6v3xep2ZjI",
+        "rank":94
+    },
+    {
+        "name":"myke towers",
+        "id":"7iK8PXO48WeuP03g8YR51W",
+        "rank":95
+    },
+    {
+        "name":"lewis capaldi",
+        "id":"4GNC7GD6oZMSxPGyXy4MNB",
+        "rank":96
+    },
+    {
+        "name":"d4vd",
+        "id":"5y8tKLUfMvliMe8IKamR32",
+        "rank":97
+    },
+    {
+        "name":"juice wrld",
+        "id":"4MCBfE4596Uoi2O4DtmEMz",
+        "rank":98
+    },
+    {
+        "name":"cardi b",
+        "id":"4kYSro6naA4h99UJvo89HB",
+        "rank":99
+    },
+    {
+        "name":"j. cole",
+        "id":"6l3HvQ5sa6mXTsMTB19rO5",
+        "rank":100
+    }
 ]
 }

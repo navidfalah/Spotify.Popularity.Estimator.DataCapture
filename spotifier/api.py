@@ -25,7 +25,6 @@ class TopTracksOfArtist(ListAPIView):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
-        artist_id = self.kwargs['artist_id']
         array_artists = get_json_data()
         access_token = get_access_token(client_id=client_id, client_secret=client_secret)
         for artist in array_artists:

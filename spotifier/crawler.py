@@ -1,17 +1,23 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
+from selenium.webdriver.firefox.options import Options
+
 
 
 def song_downloader(song_link):
+ 
+    options = Options()
+    options.binary_location = '/path/to/firefox'
+    driver = webdriver.Firefox(options=options)
 
     URL = "https://spotifymate.com/"
 
-    # If chromedriver is on your system PATH, you can initialize it simply with:
-    driver = webdriver.Chrome()
+    # If geckodriver is on your system PATH, you can initialize it simply with:
+    # driver = webdriver.Firefox()
 
     # If it's not on your PATH, provide the direct path:
-    # driver = webdriver.Chrome('/path/to/chromedriver')  
+    # driver = webdriver.Firefox(executable_path='/path/to/geckodriver')
 
     driver.get(URL)
 

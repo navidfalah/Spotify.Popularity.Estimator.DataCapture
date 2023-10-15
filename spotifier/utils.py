@@ -54,13 +54,21 @@ def get_top_tracks_of_artist(access_token, artist_id, market="US"):
     tracks_data = response.json().get('tracks', [])
 
     saved_tracks = []
-
-    # Process each track data from the response
+    print(tracks_data)
+    print("**********")
+    #     "href":"https://api.spotify.com/v1/tracks/6XbtvPmIpyCbjuT0e8cQtp",
+    #   "id":"6XbtvPmIpyCbjuT0e8cQtp",
+ 
+    #   "uri":"spotify:track:6XbtvPmIpyCbjuT0e8cQtp"
     for track_data in tracks_data:
         track, track_created = Track.objects.get_or_create(spotify_id=track_data['id'],
                                                            defaults={
                                                                'name': track_data['name'],
-                                                               # Add other fields as necessary from track_data
+                                                                "is_playable":track_data['is_playable'],
+                                                                "name":track_data['name'],
+                                                                "popularity":track_data['popularity'],
+                                                                "track_number":track_data['track_number'],
+                                                                "type":track_data['type'],
                                                            })
 
         # Process each artist associated with the track

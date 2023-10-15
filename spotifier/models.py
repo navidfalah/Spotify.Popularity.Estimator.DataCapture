@@ -23,8 +23,8 @@ class TrackFile(models.Model):
     
 
 class TrackClone(models.Model):
-    TrackFile = models.ForeignKey(TrackFile, on_delete=models.CASCADE)
-    spotify_id = models.CharField(max_length=255, unique=True)  # Spotify's track ID
+    TrackFile = models.ForeignKey(TrackFile, on_delete=models.CASCADE, blank=True, null=True)
+    spotify_id = models.CharField(max_length=255, unique=True, null=True, blank=True)  # Spotify's track ID
     name = models.CharField(max_length=255)
     is_local = models.BooleanField(default=True)
     is_playable = models.BooleanField(default=True)

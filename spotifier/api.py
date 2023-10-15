@@ -9,9 +9,9 @@ from .singers_constants import artists
 
 
 def get_json_data():
-    artists = artists
+    artists_data = artists
     array_code_artists = []
-    for artist in artists:
+    for artist in artists_data:
         array_code_artists.append(artist['id'])
     return array_code_artists
 

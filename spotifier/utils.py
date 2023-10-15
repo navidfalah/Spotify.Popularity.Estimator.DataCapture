@@ -41,30 +41,38 @@ def get_and_save_artist(access_token, artist_id):
 
     return artist_data
 
-
 def get_top_tracks_of_artist(access_token, artist_id, market="US"):
+ 
+
+    # Set up headers for the Spotify API request
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
     
+    # Make the API request to Spotify
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market={market}", headers=headers)
     tracks_data = response.json().get('tracks', [])
 
     saved_tracks = []
+
+    # Process each track data from the response
     for track_data in tracks_data:
         track, track_created = Track.objects.get_or_create(spotify_id=track_data['id'],
                                                            defaults={
                                                                'name': track_data['name'],
-                                                               # Add other fields as necessary
+                                                               # Add other fields as necessary from track_data
                                                            })
 
+        # Process each artist associated with the track
         for artist_data in track_data['artists']:
             artist, artist_created = Artist.objects.get_or_create(spotify_id=artist_data['id'],
                                                                   defaults={
                                                                       'name': artist_data['name']
+                                                                      # Add other fields as necessary from artist_data
                                                                   })
             track.artists.add(artist)
         
         saved_tracks.append(track)
-    return saved_tracks  # This now returns a list of saved track objects from the database
+
+    return saved_tracks
 

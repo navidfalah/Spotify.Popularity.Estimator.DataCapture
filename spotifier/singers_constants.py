@@ -502,7 +502,3 @@ artists =  [
         "rank":100
     }
 ]
-<<<<<<< HEAD:spotifier/singers_constants.py
-=======
-}
->>>>>>> 2800c1e9b00ce1081e81ecd624113d355d3b16af:spotifier/singers.json

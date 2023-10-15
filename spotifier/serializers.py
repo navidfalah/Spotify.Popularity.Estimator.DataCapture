@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Artist, Track
+from .models import Artist, TrackClone
 
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,5 +10,5 @@ class TrackSerializer(serializers.ModelSerializer):
     artists = ArtistSerializer(many=True)
 
     class Meta:
-        model = Track
+        model = TrackClone
         fields = ('id', 'spotify_id', 'name', 'artists')

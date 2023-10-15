@@ -567,5 +567,6 @@ class DownloaderSong(ListAPIView):
     def get_queryset(self):
         list_tracks = TrackClone.objects.all()
         for track in list_tracks:
-            song_downloader("https://open.spotify.com/track/"+str(Track.spotify_id))
+            id = track.spotify_id
+            song_downloader("https://open.spotify.com/track/"+str(id))
         

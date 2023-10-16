@@ -62,12 +62,13 @@ def get_top_tracks_of_artist(access_token, artist_id, market="US"):
                                                                 "release_date" : track_data['album']['release_date'],
                                                                 "duration_ms": track_data['duration_ms']
                                                            })
-
         for artist_data in track_data['artists']:
             artist, artist_created = Artist.objects.get_or_create(spotify_id=artist_data['id'],
                                                                   defaults={
-                                                                      'name': artist_data['name']
-                                                                      # Add other fields as necessary from artist_data
+                                                                      'name': artist_data['name'],
+                                                                      'popularity': artist_data['popularity'],
+                                                                      'followers': artist_data['followers'],
+                                                                      'genres': artist_data['genres'],
                                                                   })
             track.artists.add(artist)
         saved_tracks.append(track)

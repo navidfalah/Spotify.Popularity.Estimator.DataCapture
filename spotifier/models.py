@@ -7,7 +7,6 @@ class Artist(models.Model):
     popularity = models.IntegerField(default=0)
     followers = models.IntegerField(default=0)
     genres = models.TextField(blank=True, null=True)  # You can store genres as a comma-separated string or use another model and ForeignKey for a more normalized approach
-    image_url = models.URLField(blank=True, null=True)  # Assuming you want to store the main artist image
 
     def __str__(self):
         return self.name

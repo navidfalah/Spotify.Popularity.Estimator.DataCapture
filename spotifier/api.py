@@ -1,6 +1,6 @@
 # views.py
 from rest_framework.generics import ListAPIView
-from .models import Track
+from .models import TrackClone
 from .serializers import TrackSerializer
 from spotifier.utils import get_top_tracks_of_artist, get_and_save_artist, get_access_token
 from spotifier.constants import client_id, client_secret
@@ -565,7 +565,8 @@ class DownloaderSong(ListAPIView):
     serializer_class = TrackSerializer
         
     def get_queryset(self):
-        list_tracks = Track.objects.all()
+        list_tracks = TrackClone.objects.all()
         for track in list_tracks:
-            song_downloader("https://open.spotify.com/track/"+str(Track.spotify_id))
+            id = track.spotify_id
+            song_downloader("https://open.spotify.com/track/"+str(id))
         

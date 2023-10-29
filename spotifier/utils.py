@@ -1,6 +1,6 @@
 import requests
 import base64
-from spotifier.models import Artist, Track
+from spotifier.models import Artist, TrackClone
 
 
 def get_access_token(client_id, client_secret):
@@ -41,24 +41,17 @@ def get_and_save_artist(access_token, artist_id):
 
     return artist_data
 
-
 def get_top_tracks_of_artist(access_token, artist_id, market="US"):
     headers = {
         "Authorization": f"Bearer {access_token}"
     }
-    
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market={market}", headers=headers)
     tracks_data = response.json().get('tracks', [])
-
     saved_tracks = []
     print(tracks_data)
     print("**********")
-    #     "href":"https://api.spotify.com/v1/tracks/6XbtvPmIpyCbjuT0e8cQtp",
-    #   "id":"6XbtvPmIpyCbjuT0e8cQtp",
- 
-    #   "uri":"spotify:track:6XbtvPmIpyCbjuT0e8cQtp"
     for track_data in tracks_data:
-        track, track_created = Track.objects.get_or_create(spotify_id=track_data['id'],
+        track, track_created = TrackClone.objects.get_or_create(spotify_id=track_data['id'],
                                                            defaults={
                                                                'name': track_data['name'],
                                                                 "is_playable":track_data['is_playable'],
@@ -66,15 +59,17 @@ def get_top_tracks_of_artist(access_token, artist_id, market="US"):
                                                                 "popularity":track_data['popularity'],
                                                                 "track_number":track_data['track_number'],
                                                                 "type":track_data['type'],
+                                                                "release_date" : track_data['album']['release_date'],
+                                                                "duration_ms": track_data['duration_ms']
                                                            })
-
         for artist_data in track_data['artists']:
             artist, artist_created = Artist.objects.get_or_create(spotify_id=artist_data['id'],
                                                                   defaults={
-                                                                      'name': artist_data['name']
+                                                                      'name': artist_data['name'],
+                                                                      'popularity': artist_data['popularity'],
+                                                                      'followers': artist_data['followers'],
+                                                                      'genres': artist_data['genres'],
                                                                   })
             track.artists.add(artist)
-        
         saved_tracks.append(track)
-    return saved_tracks  # This now returns a list of saved track objects from the database
-
+    return saved_tracks

@@ -4,7 +4,7 @@
 import requests
 
 
-url = 'http://localhost:8000/your-endpoint/'  # Replace with your actual endpoint
+url = 'http://127.0.0.1:8000/spotifier/artist/tone/'  # Replace with your actual endpoint
 
 # Send a GET request to the Django server
 response = requests.get(url)

@@ -2,7 +2,7 @@
 from rest_framework.generics import ListAPIView
 from .models import TrackClone
 from .serializers import TrackSerializer
-from spotifier.utils import get_access_token
+from spotifier.utils import get_access_token, get_access_token_private
 from spotifier.constants import client_id, client_secret
 from .crawler import song_downloader
 from .singers_constants import artists as artists_data
@@ -135,4 +135,16 @@ class DownloaderSong(ListAPIView):
         list_tracks = TrackClone.objects.all()
         for track in list_tracks:
             id = track.spotify_id
-            song_downloader("https://open.spotify.com/track/"+str(id))        
+            song_downloader("https://open.spotify.com/track/"+str(id))
+        
+
+class MYLikeCloner(ListAPIView):
+    serializer_class = TrackSerializer
+
+    def get_queryset(self):
+        access_token = get_access_token_private(client_id=client_id, client_secret=client_secret, redirect_uri="localhost://api/")
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+            }
+        response = requests.get(f"https://api.spotify.com/v1/me/tracks", headers=headers)
+        print(response.json())

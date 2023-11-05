@@ -2,7 +2,8 @@ from django.urls import path, include
 from spotifier.api import(
     TopTracksOfArtist_first, TopTracksOfArtist_second,
     TopTracksOfArtist_third, TopTracksOfArtist_forth,
-    DownloaderSong, ArtistCloner)
+    DownloaderSong, ArtistCloner, MYLikeCloner)
+from spotifier import views
 
 urlpatterns = [
     path('artist/clone/', ArtistCloner.as_view(), name='artist_cloner'),
@@ -11,4 +12,7 @@ urlpatterns = [
     path('artist/tthird/', TopTracksOfArtist_third.as_view(), name='top_tracks'),
     path('artist/tfour/', TopTracksOfArtist_forth.as_view(), name='top_tracks'),
     path('artist/downlaoder/', DownloaderSong.as_view(), name='downlaod_tracks'),
+    path('my/songs/', MYLikeCloner.as_view(), name='my_tracks'),
+    path('auth/', views.auth, name='spotify_auth'),
+    path('callback/', views.spotify_callback, name='spotify_callback'),
 ]

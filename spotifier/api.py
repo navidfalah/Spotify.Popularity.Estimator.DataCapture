@@ -2,7 +2,7 @@
 from rest_framework.generics import ListAPIView
 from .models import TrackClone
 from .serializers import TrackSerializer
-from spotifier.utils import get_access_token
+from spotifier.utils import get_access_token, get_access_token_private
 from spotifier.constants import client_id, client_secret
 from .crawler import song_downloader
 from .singers_constants import artists as artists_data
@@ -84,37 +84,33 @@ class TopTracksOfArtist_first(ListAPIView):
             song_cloner(access_token, artist.spotify_id)
 
 
-
-
 class TopTracksOfArtist_second(ListAPIView):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
-        array_artists = get_json_data()
         access_token = get_access_token(client_id=client_id, client_secret=client_secret)
-        for artist in array_artists[25:50]:
-            tracks = get_top_tracks_of_artist(access_token, artist)
-        return tracks
+        artists_first = Artist.objects.filter()[25:50]
+        for artist in artists_first:
+            song_cloner(access_token, artist.spotify_id)
 
 class TopTracksOfArtist_third(ListAPIView):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
-        array_artists = get_json_data()
         access_token = get_access_token(client_id=client_id, client_secret=client_secret)
-        for artist in array_artists[50:75]:
-            tracks = get_top_tracks_of_artist(access_token, artist)
-        return tracks
+        artists_first = Artist.objects.filter()[50:75]
+        for artist in artists_first:
+            song_cloner(access_token, artist.spotify_id)
 
 class TopTracksOfArtist_forth(ListAPIView):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
-        array_artists = get_json_data()
         access_token = get_access_token(client_id=client_id, client_secret=client_secret)
-        for artist in array_artists[75:100]:
-            tracks = get_top_tracks_of_artist(access_token, artist)
-        return tracks
+        artists_first = Artist.objects.filter()[75:100]
+        for artist in artists_first:
+            song_cloner(access_token, artist.spotify_id)
+    
     
 class DownloaderSong(ListAPIView):
     serializer_class = TrackSerializer
@@ -126,29 +122,13 @@ class DownloaderSong(ListAPIView):
             song_downloader("https://open.spotify.com/track/"+str(id))
         
 
+class MYLikeCloner(ListAPIView):
+    serializer_class = TrackSerializer
 
-
-
-
-
-
-# def get_top_tracks_of_artist(access_token, artist_id, market="US"):
-#     headers = {
-#         "Authorization": f"Bearer {access_token}"
-#     }
-    
-#         for artist_data in track_data['artists']:
-#             print(artist_data)
-#             response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers=headers)
-#             specific_artist = response.json()
-#             artist, artist_created = Artist.objects.get_or_create(spotify_id=artist_data['id'],
-#                                                                   defaults={
-#                                                                       'name': artist_data['name'],
-#                                                                       'popularity': specific_artist['popularity'],
-#                                                                       'followers': specific_artist['followers']['total'],
-#                                                                       'genres': specific_artist['genres'],
-#                                                                   })
-#             track.artists.add(artist)
-#         saved_tracks.append(track)
-#     return saved_tracks
-
+    def get_queryset(self):
+        access_token = get_access_token_private(client_id=client_id, client_secret=client_secret, redirect_uri="localhost://api/")
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+            }
+        response = requests.get(f"https://api.spotify.com/v1/me/tracks", headers=headers)
+        print(response.json())

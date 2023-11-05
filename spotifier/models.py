@@ -7,9 +7,11 @@ class Artist(models.Model):
     popularity = models.IntegerField(default=0)
     followers = models.IntegerField(default=0)
     genres = models.TextField(blank=True, null=True)  # You can store genres as a comma-separated string or use another model and ForeignKey for a more normalized approach
+    main_artist = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.name 
+    
 
 class TrackFile(models.Model):
     File = models.FileField(blank=True, null=True)
@@ -30,12 +32,14 @@ class TrackClone(models.Model):
     track_number = models.IntegerField()
     type = models.CharField(max_length=100)
     duration_ms = models.IntegerField(default=0)
-    artists = models.ManyToManyField(Artist)
+    artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
+    artists_list = models.TextField()
     release_date = models.CharField(max_length=30, blank=True, null=True)
     modified = models.DateTimeField(auto_now=True, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    downloaded = models.BooleanField(default=False)
     # You can add more fields if needed, e.g., album, artists, etc.
 
     def __str__(self):
-        return self.name
+        return self.name 
     

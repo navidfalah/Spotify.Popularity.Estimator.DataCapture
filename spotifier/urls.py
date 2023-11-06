@@ -2,7 +2,7 @@ from django.urls import path, include
 from spotifier.api import(
     TopTracksOfArtist_first, TopTracksOfArtist_second,
     TopTracksOfArtist_third, TopTracksOfArtist_forth,
-    DownloaderSong, ArtistCloner, MYLikeCloner)
+    DownloaderSong, ArtistCloner, MYLikeCloner, GetAllTracks)
 from spotifier import views
 
 urlpatterns = [

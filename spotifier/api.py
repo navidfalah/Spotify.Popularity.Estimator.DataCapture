@@ -8,6 +8,7 @@ from .crawler import song_downloader
 from .singers_constants import artists as artists_data
 import requests
 from .models import Artist
+import json
 
 
 def get_json_data():
@@ -146,5 +147,6 @@ class MYLikeCloner(ListAPIView):
         headers = {
             "Authorization": f"Bearer {access_token}"
             }
-        response = requests.get(f"https://api.spotify.com/v1/me/tracks", headers=headers)
-        print(response.json())
+        response = requests.get(f"https://api.spotify.com/v1/me/tracks?limit=600", headers=headers)
+        with open('spotify_tracks.json', 'w') as file:
+            json.dump(response.json(), file, indent=4)

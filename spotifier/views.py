@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse
 import requests
 from urllib.parse import urlencode
-
+import json
 
 client_id = "6cffce53882c4c3494bc6e258fc44cb0"
 client_secret = "4fb8c7af4b23477c9afa930fbfaaa6d6"
@@ -44,8 +44,14 @@ def spotify_callback(request):
         headers = {
             "Authorization": f"Bearer {access_token}"
             }
-        response = requests.get(f"https://api.spotify.com/v1/me/tracks", headers=headers)
-        print(response.json())
+        offset = 0
+        for x in range(0, 16):
+            response = requests.get(f"https://api.spotify.com/v1/me/tracks?limit=50&offset={offset}", headers=headers)
+            offset += 50
+      
+        # print(response.json())
+            with open(f'spotify_tracks{x}.json', 'w') as file:
+                json.dump(response.json(), file, indent=4)
 
         return HttpResponse('Authorization successful!')
 

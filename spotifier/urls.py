@@ -18,4 +18,6 @@ urlpatterns = [
     path('auth/', views.auth, name='spotify_auth'),
     path('callback/', views.spotify_callback, name='spotify_callback'),
     path('like/json', views.like_spotifier_json, name='json_liker'),
+    path('delete/artist', views.delete_without_singers),
+    path('delete/artist/name', views.delete_without_name_singers)
 ]

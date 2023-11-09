@@ -82,31 +82,58 @@ def get_access_token_private(client_id, client_secret, code, redirect_uri):
 # urls.py
 
 
-file_path = "/home/navid/Desktop/spotify/Spotify-Popularity-Estimator/"
+file_path = ""
 
-def like_spotifier_json():
+def like_spotifier_json(request):
     for x in range(0, 16):
     
         with open(file_path+f"spotify_tracks{x}.json", 'r') as json_file:
             data = json.load(json_file)
 
         for item in data['items']:
-            track_info = item['track']
-            artist, _ = Artist.objects.get_or_create(spotify_id=artist_id)
-            track_file_instance = None
-            track_clone = TrackClone(
-                TrackFile=track_file_instance,
-                spotify_id=track_info['id'],
-                name=track_info['name'],
-                is_local=track_info['is_local'],
-                is_playable=True,  # Assuming all tracks are playable for this example
-                popularity=track_info['popularity'],
-                track_number=track_info['track_number'],
-                type=track_info['type'],
-                duration_ms=track_info['duration_ms'],
-                artist=artist,
-                artists_list=','.join([artist['name'] for artist in track_info['artists']]),
-                release_date=track_info['album']['release_date']
-            )
-            
-            track_clone.save()
+            try:
+                track_info = item['track']
+                artist = Artist.objects.filter(spotify_id=track_info['artists'][0]['id']).first()
+                track_file_instance = None
+                track_clone = TrackClone(
+                    TrackFile=track_file_instance,
+                    spotify_id=track_info['id'],
+                    name=track_info['name'],
+                    is_local=track_info['is_local'],
+                    is_playable=True,  # Assuming all tracks are playable for this example
+                    popularity=track_info['popularity'],
+                    track_number=track_info['track_number'],
+                    type=track_info['type'],
+                    duration_ms=track_info['duration_ms'],
+                    artist=artist,
+                    artists_list=','.join([artist['name'] for artist in track_info['artists']]),
+                    release_date=track_info['album']['release_date']
+                )
+                if artist=="":
+                    pass
+                else:
+                    track_clone.save()
+            except:
+                pass
+    return HttpResponse('successful!')
+
+
+def delete_without_singers(request):
+    # Filter out all TrackClone objects with an empty artist field
+    tracks_without_singers = TrackClone.objects.filter(artist="")    
+    # Delete all objects in the queryset
+    # tracks_without_singers.delete()
+
+    # Return an HttpResponse indicating the operation was successful
+    return HttpResponse('Tracks without artists deleted successfully!')
+
+
+
+def delete_without_name_singers(request):
+    # Filter out all TrackClone objects with an empty artist field
+    tracks_without_singers = Artist.objects.filter(name="")    
+    # Delete all objects in the queryset
+    # tracks_without_singers.delete()
+
+    # Return an HttpResponse indicating the operation was successful
+    return HttpResponse('Tracks without artists deleted successfully!')

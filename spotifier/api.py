@@ -4,7 +4,6 @@ from .models import TrackClone
 from .serializers import TrackSerializer
 from spotifier.utils import get_access_token, get_access_token_private
 from spotifier.constants import client_id, client_secret
-from .crawler import song_downloader
 from .singers_constants import artists as artists_data
 import requests
 from .models import Artist
@@ -136,7 +135,7 @@ class DownloaderSong(ListAPIView):
         list_tracks = TrackClone.objects.all()
         for track in list_tracks:
             id = track.spotify_id
-            song_downloader("https://open.spotify.com/track/"+str(id))
+            # song_downloader("https://open.spotify.com/track/"+str(id))
         
 
 class MYLikeCloner(ListAPIView):

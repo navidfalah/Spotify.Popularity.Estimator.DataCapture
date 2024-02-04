@@ -13,32 +13,27 @@ class Artist(models.Model):
         return self.name 
     
 
-class TrackFile(models.Model):
-    File = models.FileField(blank=True, null=True)
-    modified = models.DateTimeField(auto_now=True, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-    
-
 class TrackClone(models.Model):
-    TrackFile = models.ForeignKey(TrackFile, on_delete=models.CASCADE, blank=True, null=True)
     spotify_id = models.CharField(max_length=255, unique=True, null=True, blank=True)  # Spotify's track ID
     name = models.CharField(max_length=255)
-    is_local = models.BooleanField(default=True)
-    is_playable = models.BooleanField(default=True)
     popularity = models.IntegerField(default=0)
-    track_number = models.IntegerField()
-    type = models.CharField(max_length=100)
     duration_ms = models.IntegerField(default=0)
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     artists_list = models.TextField()
     release_date = models.CharField(max_length=30, blank=True, null=True)
-    modified = models.DateTimeField(auto_now=True, null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    downloaded = models.BooleanField(default=False)
-    # You can add more fields if needed, e.g., album, artists, etc.
+    acousticness = models.CharField(max_length=10, blank=True, null=True)
+    danceability = models.CharField(max_length=10, blank=True, null=True)
+    duration_ms = models.CharField(max_length=10, blank=True, null=True)
+    energy = models.CharField(max_length=10, blank=True, null=True)
+    instrumentalness = models.CharField(max_length=10, blank=True, null=True)
+    key = models.CharField(max_length=10, blank=True, null=True)
+    liveness = models.CharField(max_length=10, blank=True, null=True)
+    loudness = models.CharField(max_length=10, blank=True, null=True)
+    mode = models.CharField(max_length=10, blank=True, null=True)
+    speechiness = models.CharField(max_length=10, blank=True, null=True)
+    tempo = models.CharField(max_length=10, blank=True, null=True)
+    time_signature = models.CharField(max_length=10, blank=True, null=True)
+    valence = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.name 

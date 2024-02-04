@@ -1,36 +1,64 @@
 from django.contrib import admin
-from spotifier.models import Artist, TrackFile, TrackClone
-
-admin.site.register(Artist)
-admin.site.register(TrackFile)
-
-
-from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
-from .models import TrackClone, TrackFile, Artist
+from django.http import HttpResponse
+import csv
+from .models import TrackClone, Artist
 
-class DownloadedFilter(admin.SimpleListFilter):
-    title = _('downloaded status')
-    parameter_name = 'downloaded'
 
-    def lookups(self, request, model_admin):
-        return (
-            ('True', _('Downloaded')),
-            ('False', _('Not downloaded')),
-        )
+def export_to_csv(modeladmin, request, queryset):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=TrackClones.csv'
+    writer = csv.writer(response)
 
-    def queryset(self, request, queryset):
-        if self.value() == 'True':
-            return queryset.filter(downloaded=True)
-        elif self.value() == 'False':
-            return queryset.filter(downloaded=False)
+    # Define the headers for CSV (excluding spotify_id and some other fields)
+    track_clone_fields = ['name', 'popularity', 'track_number', 'type', 'duration_ms', 'artists_list', 'release_date']
+    artist_fields = ['artist_name', 'artist_popularity', 'artist_followers', 'artist_genres', 'artist_main_artist']
+    writer.writerow(track_clone_fields + artist_fields)
+
+    # Write data rows
+    for obj in queryset:
+        row = [getattr(obj, field) for field in track_clone_fields]
+
+        # Append data from the related Artist object
+        artist = obj.artist
+        artist_data = [
+            artist.name, 
+            artist.popularity, 
+            artist.followers, 
+            artist.genres, 
+            artist.main_artist
+        ]
+        row.extend(artist_data)
+
+        writer.writerow(row)
+
+    return response
+
+
+export_to_csv.short_description = "Export Selected to CSV"
+
+# class DownloadedFilter(admin.SimpleListFilter):
+#     title = _('downloaded status')
+#     parameter_name = 'downloaded'
+
+#     def lookups(self, request, model_admin):
+#         return (
+#             ('True', _('Downloaded')),
+#             ('False', _('Not downloaded')),
+#         )
+
+#     def queryset(self, request, queryset):
+#         if self.value() == 'True':
+#             return queryset.filter(downloaded=True)
+#         elif self.value() == 'False':
+#             return queryset.filter(downloaded=False)
 
 @admin.register(TrackClone)
 class TrackCloneAdmin(admin.ModelAdmin):
-    list_display = ('name', 'artist', 'downloaded', 'created', 'modified')
-    list_filter = (DownloadedFilter,)
-    # Additional admin options here
+    list_display = ('name', 'artist')
+    # list_filter = (DownloadedFilter,)
+    search_fields = ['name']
+    actions = [export_to_csv]  # Adding the export to CSV action
 
-# Optionally, if you want to register TrackFile and Artist, you would also do:
-# admin.site.register(TrackFile)
-# admin.site.register(Artist)
+# Register other models
+admin.site.register(Artist)

@@ -1,13 +1,17 @@
-# views.py
 from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from .models import TrackClone
 from .serializers import TrackSerializer
+from django.http import JsonResponse
 from spotifier.utils import get_access_token, get_access_token_private
 from spotifier.constants import client_id, client_secret
 from .singers_constants import artists as artists_data
 import requests
 from .models import Artist
 import json
+from .models import TrackClone
+from rest_framework.response import Response
+from urllib.parse import urlparse
 
 
 def get_json_data():
@@ -41,16 +45,6 @@ def song_cloner(access_token, artist_id, artist_pk, market="US"):
             })
         artist_names = [artist['name'] for artist in track_data['artists']]
         artist_names_csv = ', '.join(artist_names)
-        # for artist_data in track_data['artists']:
-        #     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_data['id']}", headers=headers)
-        #     specific_artist = response.json()
-        #     artist, artist_created = Artist.objects.get_or_create(spotify_id=artist_data['id'],
-        #         defaults={
-        #             'name': specific_artist['name'],
-        #             'popularity': specific_artist['popularity'],
-        #             'followers': specific_artist['followers']['total'],
-        #             'genres': specific_artist['genres'],
-        #         })
         track.artists_list = artist_names_csv
         track.save()
       
@@ -82,6 +76,41 @@ class ArtistCloner(ListAPIView):
         return Artist    
 
 
+class TracksFeatures(ListAPIView):
+    serializer_class = TrackSerializer
+
+    def get(self, request, *args, **kwargs):
+        all_tracks = TrackClone.objects.all()
+        for track in all_tracks:
+            if not track.feature_cloned:
+                track_ids = urlparse(track.spotify_id).path.split('/')[-1]
+                access_token = get_access_token(client_id=client_id, client_secret=client_secret)
+                headers = {"Authorization": f"Bearer {access_token}"}
+                response = requests.get(f"https://api.spotify.com/v1/audio-features?ids={track_ids}", headers=headers)
+                audio_features = response.json()['audio_features'][0]
+                track.danceability = audio_features['danceability']
+                track.energy = audio_features['energy']
+                track.key = audio_features['key']
+                track.loudness = audio_features['loudness']
+                track.mode = audio_features['mode']
+                track.speechiness = audio_features['speechiness']
+                track.acousticness = audio_features['acousticness']
+                track.instrumentalness = audio_features['instrumentalness']
+                track.liveness = audio_features['liveness']
+                track.valence = audio_features['valence']
+                track.tempo = audio_features['tempo']
+                track.track_id = audio_features['id']
+                track.duration_ms = audio_features['duration_ms']
+                track.time_signature = audio_features['time_signature']
+                track.feature_cloned = True
+                track.save()
+                print("saved")
+                print(track.pk)
+
+       
+        return Response({"haha"})
+
+
 class TopTracksOfArtist_first(ListAPIView):
     serializer_class = TrackSerializer
 
@@ -95,7 +124,6 @@ class TopTracksOfArtist_second(ListAPIView):
     serializer_class = TrackSerializer
 
     def get_queryset(self):
-        print("hereee")
         access_token = get_access_token(client_id=client_id, client_secret=client_secret)
         artists_first = Artist.objects.filter(main_artist=True)[25:50]
         for artist in artists_first:
@@ -135,7 +163,6 @@ class DownloaderSong(ListAPIView):
         list_tracks = TrackClone.objects.all()
         for track in list_tracks:
             id = track.spotify_id
-            # song_downloader("https://open.spotify.com/track/"+str(id))
         
 
 class MYLikeCloner(ListAPIView):

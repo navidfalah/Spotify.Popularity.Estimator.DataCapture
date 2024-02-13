@@ -11,8 +11,8 @@ def export_to_csv(modeladmin, request, queryset):
     writer = csv.writer(response)
 
     # Define the headers for CSV (excluding spotify_id and some other fields)
-    track_clone_fields = ['name', 'popularity', 'track_number', 'type', 'duration_ms', 'artists_list', 'release_date']
-    artist_fields = ['artist_name', 'artist_popularity', 'artist_followers', 'artist_genres', 'artist_main_artist']
+    track_clone_fields = ['spotify_id', 'name', 'popularity', 'duration_ms', 'artist', 'artists_list', 'release_date', 'acousticness', 'danceability', 'energy', 'instrumentalness', 'key', 'liveness', 'loudness', 'mode', 'speechiness', 'tempo', 'time_signature', 'valence']
+    artist_fields = ['artist_name', 'artist_popularity', 'artist_followers', 'artist_genres']
     writer.writerow(track_clone_fields + artist_fields)
 
     # Write data rows
@@ -26,7 +26,6 @@ def export_to_csv(modeladmin, request, queryset):
             artist.popularity, 
             artist.followers, 
             artist.genres, 
-            artist.main_artist
         ]
         row.extend(artist_data)
 
@@ -38,14 +37,14 @@ def export_to_csv(modeladmin, request, queryset):
 export_to_csv.short_description = "Export Selected to CSV"
 
 # class DownloadedFilter(admin.SimpleListFilter):
-#     title = _('downloaded status')
-#     parameter_name = 'downloaded'
+#     title = _('artist')
+#     parameter_name = 'artist'
 
-#     def lookups(self, request, model_admin):
-#         return (
-#             ('True', _('Downloaded')),
-#             ('False', _('Not downloaded')),
-#         )
+#     # def lookups(self, request, model_admin):
+#     #     return (
+#     #         ('True', _('Downloaded')),
+#     #         ('False', _('Not downloaded')),
+#     #     )
 
 #     def queryset(self, request, queryset):
 #         if self.value() == 'True':

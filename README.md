@@ -1,4 +1,4 @@
-# Spotify Data Collector 🎵🔍
+# Spotify Data Collector 🎵 🔍
 
 ## Overview 🌐
 Spotify Data Collector is a robust 🛠️ project designed to fetch 🎣, process 🔄, and store 🗃️ data from Spotify. Focusing on the top 🔝 artists and songs as per Spotify's ratings 🌟, specifically the top 100 artists of February 2023 📅. It transforms the JSON data from Spotify into Python ORM to be efficiently stored in an SQLite database 📚, utilizing Django 🌐 and Django REST framework 🛠️ for its backend.

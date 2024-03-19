@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from .models import TrackClone
 from .serializers import TrackSerializer
 from django.http import JsonResponse
-from spotifier.utils import get_access_token, get_access_token_private
-from spotifier.constants import client_id, client_secret
+from spotifier.utils import get_access_token
+from spotifier.constants import client_id, client_secret, code
 from .singers_constants import artists as artists_data
 import requests
 from .models import Artist
@@ -12,6 +12,8 @@ import json
 from .models import TrackClone
 from rest_framework.response import Response
 from urllib.parse import urlparse
+import os
+import re
 
 
 def get_json_data():
@@ -165,14 +167,43 @@ class DownloaderSong(ListAPIView):
             id = track.spotify_id
         
 
+
 class MYLikeCloner(ListAPIView):
     serializer_class = TrackSerializer
 
+    def get_existing_offsets(self):
+        """
+        Scan the existing JSON files to determine the last fetched offset.
+        This helps in resuming the process from where it was interrupted.
+        """
+        existing_files = os.listdir('.')
+        offsets = [int(re.search(r'offset_(\d+).json', file).group(1)) 
+                   for file in existing_files if re.match(r'spotify_tracks_offset_\d+.json', file)]
+        return sorted(offsets)
+
     def get_queryset(self):
-        access_token = get_access_token_private(client_id=client_id, client_secret=client_secret, redirect_uri="localhost://api/")
-        headers = {
-            "Authorization": f"Bearer {access_token}"
-            }
-        response = requests.get(f"https://api.spotify.com/v1/me/tracks?limit=600", headers=headers)
-        with open('spotify_tracks.json', 'w') as file:
-            json.dump(response.json(), file, indent=4)
+        access_token = "BQD4uV3EQC9moqBF963IRY8_cQ0GJlopXaclUbvDDV_cyE-u7_9k3VYXgc4GOzn6g5pqq2hM9pr0EWLiMVAxQzdxdgnDWYLg7v-lDnJbfE0te6IVoINxZSzIjz_BRfmrZjBkcFzYril4o0a0kABXy6T6ub8YiZhBfRd6bv936r35nZP6Em_LkVQc13c26Eo8yzodmNCBfSaGaGLyaY3x&token_type=Bearer&expires_in=3600&state=yVdO8AQkI4SW52KChXqEIg"  # Replace with your actual access token
+        headers = {"Authorization": f"Bearer {access_token}"}
+        limit = 50
+        total_tracks = 1900  # Update this if the number of tracks changes
+        existing_offsets = self.get_existing_offsets()
+
+        for expected_offset in range(0, total_tracks, limit):
+            if expected_offset not in existing_offsets:
+                response = requests.get(f"https://api.spotify.com/v1/me/tracks?limit={limit}&offset={expected_offset}", headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    items = data['items']
+                    if items:
+                        filename = f'spotify_tracks_offset_{expected_offset}.json'
+                        with open(filename, 'w') as file:
+                            json.dump(items, file, indent=4)
+                        print(f"Saved {len(items)} tracks to {filename}")
+                    else:
+                        # If no items are returned for a non-final request, it may indicate an issue or that we have fetched all tracks
+                        print(f"No items returned for offset {expected_offset}. May have reached the end of the track list.")
+                        break
+                else:
+                    print(f"Failed to fetch tracks, status code: {response.status_code} at offset {expected_offset}")
+                    # You may want to break or implement a retry mechanism here
+                    

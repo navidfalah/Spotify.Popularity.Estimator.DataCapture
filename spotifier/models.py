@@ -34,6 +34,7 @@ class TrackClone(models.Model):
     tempo = models.CharField(max_length=10, blank=True, null=True)
     time_signature = models.CharField(max_length=10, blank=True, null=True)
     valence = models.CharField(max_length=10, blank=True, null=True)
+    downloaded = models.BooleanField(default=True, blank=True, null=True)
 
     def __str__(self):
         return self.name 

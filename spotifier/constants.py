@@ -1,3 +1,3 @@
-client_id = "6cffce53882c4c3494bc6e258fc44cb0"
-client_secret = "4fb8c7af4b23477c9afa930fbfaaa6d6"
-artist_id = "1Xyo4u8uXC1ZmMpatF05PJ"
+client_id = "68b100ed876545139d6110d237388ed7"
+client_secret = "d14885e4e0de42bbb0380f03f9c763fc"
+code = "AQAjXINtF8tJ55faVWjS7eOOT-Sm692pzCkoXZ_q1CgrWRsjWqGcmja800rjzislOF7s68N2F4n3RqSLng9ahUQpeCulv7xEqAP5tC0KMOO8TVqYBq7zV2qLLIsl_nzMBLt4FX8o67Y-PO9nXtGRrDzOCFMavLJsyg-GMfiWUzLVRv7U2dXQoB97Th0"

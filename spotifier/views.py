@@ -7,7 +7,7 @@ from urllib.parse import urlencode
 import json
 import json
 from .models import TrackClone, Artist
-from constants import client_id, client_secret
+from .constants import client_id, client_secret
 
 
 def auth(request):
@@ -51,34 +51,50 @@ def get_access_token_private(client_id, client_secret, code, redirect_uri):
     else:
         response.raise_for_status()
 
+
 def like_spotifier_json(request):
-    file_path = ""
-    for x in range(0, 16):
-        with open(file_path+f"spotify_tracks{x}.json", 'r') as json_file:
-            data = json.load(json_file)
-        for item in data['items']:
-            try:
-                track_info = item['track']
-                artist = Artist.objects.filter(spotify_id=track_info['artists'][0]['id']).first()
-                track_file_instance = None
-                track_clone = TrackClone(
-                    TrackFile=track_file_instance,
-                    spotify_id=track_info['id'],
-                    name=track_info['name'],
-                    is_local=track_info['is_local'],
-                    is_playable=True,  # Assuming all tracks are playable for this example
-                    popularity=track_info['popularity'],
-                    track_number=track_info['track_number'],
-                    type=track_info['type'],
-                    duration_ms=track_info['duration_ms'],
-                    artist=artist,
-                    artists_list=','.join([artist['name'] for artist in track_info['artists']]),
-                    release_date=track_info['album']['release_date']
-                )
-                if artist=="":
-                    pass
-                else:
+    # You may need to adjust the file path depending on where your files are stored
+    file_path = "/home/navid/Desktop/Spotify-Popularity-Estimator/"
+    
+   
+    # Change the range according to your JSON files count and offsets.
+    for offset in range(0, 1900, 50):
+        try:
+            file_name = f"spotify_tracks_offset_{offset}.json"
+            with open(file_path + file_name, 'r') as json_file:
+                data = json.load(json_file)
+
+            # Check if the JSON data is a list or a dict with an 'items' key.
+            tracks = data if isinstance(data, list) else data.get('items', [])
+            
+            for item in tracks:
+                try:
+                    track_info = item['track']
+                    artist_spotify_id = track_info['artists'][0]['id'] if track_info['artists'] else None
+                    artist = Artist.objects.filter(spotify_id=artist_spotify_id).first() if artist_spotify_id else None
+                    if not artist:
+                        continue
+
+                    track_file_instance = None  # Define how to handle TrackFile instance
+                    track_clone = TrackClone(
+                        spotify_id=track_info['id'],
+                        name=track_info['name'],
+                        popularity=track_info['popularity'],
+                        duration_ms=track_info['duration_ms'],
+                        artist=artist,
+                        artists_list=','.join([artist['name'] for artist in track_info['artists']]),
+                        release_date=track_info['album']['release_date'],
+                        downloaded=False
+                    )
                     track_clone.save()
-            except:
-                pass
+                except Exception as e:
+                    print(e)
+                    # Here you should log the exception or handle it accordingly
+                    # Example: print(f"Error processing track: {e}")
+                    pass
+        except FileNotFoundError:
+            # If a file doesn't exist, log the error or handle it
+            # Example: print(f"File {file_name} not found.")
+            pass
+
     return HttpResponse('successful!')

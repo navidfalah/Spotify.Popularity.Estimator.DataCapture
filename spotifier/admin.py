@@ -36,26 +36,26 @@ def export_to_csv(modeladmin, request, queryset):
 
 export_to_csv.short_description = "Export Selected to CSV"
 
-# class DownloadedFilter(admin.SimpleListFilter):
-#     title = _('artist')
-#     parameter_name = 'artist'
+class DownloadedFilter(admin.SimpleListFilter):
+    title = _('artist')
+    parameter_name = 'artist'
 
-#     # def lookups(self, request, model_admin):
-#     #     return (
-#     #         ('True', _('Downloaded')),
-#     #         ('False', _('Not downloaded')),
-#     #     )
+    def lookups(self, request, model_admin):
+        return (
+            ('True', _('Downloaded')),
+            ('False', _('Not downloaded')),
+        )
 
-#     def queryset(self, request, queryset):
-#         if self.value() == 'True':
-#             return queryset.filter(downloaded=True)
-#         elif self.value() == 'False':
-#             return queryset.filter(downloaded=False)
+    def queryset(self, request, queryset):
+        if self.value() == 'True':
+            return queryset.filter(downloaded=True)
+        elif self.value() == 'False':
+            return queryset.filter(downloaded=False)
 
 @admin.register(TrackClone)
 class TrackCloneAdmin(admin.ModelAdmin):
     list_display = ('name', 'artist')
-    # list_filter = (DownloadedFilter,)
+    list_filter = (DownloadedFilter,)
     search_fields = ['name']
     actions = [export_to_csv]  # Adding the export to CSV action
 

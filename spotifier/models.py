@@ -15,6 +15,7 @@ class Artist(models.Model):
 
 class TrackClone(models.Model):
     spotify_id = models.CharField(max_length=255, unique=True, null=True, blank=True)  # Spotify's track ID
+    downloaded = models.BooleanField(default=True, blank=True, null=True)
     name = models.CharField(max_length=255)
     popularity = models.IntegerField(default=0)
     duration_ms = models.IntegerField(default=0)
@@ -34,7 +35,6 @@ class TrackClone(models.Model):
     tempo = models.CharField(max_length=10, blank=True, null=True)
     time_signature = models.CharField(max_length=10, blank=True, null=True)
     valence = models.CharField(max_length=10, blank=True, null=True)
-    downloaded = models.BooleanField(default=True, blank=True, null=True)
 
     def __str__(self):
         return self.name 

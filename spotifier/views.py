@@ -98,3 +98,16 @@ def like_spotifier_json(request):
             pass
 
     return HttpResponse('successful!')
+
+
+def spotify_id_corrector(request):
+    track_list = TrackClone.objects.filter(downloaded=False)
+    for track in track_list:
+        if TrackClone.objects.filter(spotify_id='https://open.spotify.com/track/'+ track.spotify_id).count()>0:
+            track.delete()
+        else:
+            track.spotify_id = 'https://open.spotify.com/track/'+ track.spotify_id
+            print(track.spotify_id)
+            track.save()
+    return HttpResponse('successful!')
+    
